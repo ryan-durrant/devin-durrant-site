@@ -190,7 +190,7 @@ a:hover {
   }
 
   .site-nav.is-open {
-    max-height: 22rem;
+    max-height: 28rem;
   }
 
   .site-nav ul {
@@ -256,6 +256,98 @@ a:hover {
   line-height: 1.6;
 }
 
+/* —— Horizontal journey (mixed scroll) —— */
+.horizontal-section {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-elevated);
+}
+
+.horizontal-section__track {
+  display: flex;
+  width: fit-content;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.horizontal-section__track::-webkit-scrollbar {
+  display: none;
+}
+
+.horizontal-panel {
+  flex: 0 0 100vw;
+  width: 100vw;
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--header-h) + var(--space-lg)) var(--space-md) var(--space-xl);
+}
+
+.horizontal-panel__inner {
+  max-width: 28rem;
+  text-align: center;
+}
+
+.horizontal-panel__num {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+
+.horizontal-panel__title {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.horizontal-panel__text {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
+.horizontal-section__hint {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .horizontal-section__hint {
+    display: none;
+  }
+}
+
 /* —— Photo placeholders —— */
 .photo-slot {
   margin: 0;
@@ -269,6 +361,14 @@ a:hover {
   object-fit: cover;
   border-radius: 2px;
   border: 1px solid var(--line);
+}
+
+.photo-slot--hero .photo-slot__img {
+  width: 100%;
+  max-height: min(85vh, 40rem);
+  height: auto;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .photo-slot__placeholder {
@@ -468,6 +568,81 @@ a:hover {
 .stats-table tbody tr:hover td,
 .stats-table tbody tr:hover th[scope="row"] {
   background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+/* —— Church & General Conference videos —— */
+.section--church {
+  background: var(--bg);
+}
+
+.church-intro__more {
+  margin-bottom: 0;
+  font-size: 0.98rem;
+}
+
+.talks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-lg);
+}
+
+.talk-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+
+.talk-card__title {
+  margin: 0 0 var(--space-xs);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.talk-card__meta {
+  margin: 0 0 var(--space-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.video-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.talk-card__read {
+  margin: var(--space-sm) 0 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.talk-card__read a {
+  color: var(--accent);
+}
+
+.talk-card__read a:hover {
+  color: #dcc29a;
 }
 
 /* —— Footer links —— */
