@@ -256,37 +256,38 @@ a:hover {
   line-height: 1.6;
 }
 
-/* —— Horizontal journey (mixed scroll) —— */
-.horizontal-section {
+/* —— Horizontal panels: vertical scroll drives translateX (sticky + no overflow-x) —— */
+.horizontal-scroll-scroller {
+  --horizontal-panels: 4;
   position: relative;
+  height: calc(var(--horizontal-panels) * 100vh);
+  border-bottom: 1px solid var(--line);
+}
+
+.horizontal-scroll-sticky {
+  position: sticky;
+  top: 0;
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
   background: var(--bg-elevated);
+}
+
+.horizontal-section--alt .horizontal-scroll-sticky {
+  background: var(--bg);
 }
 
 .horizontal-section__track {
   display: flex;
+  flex: 1;
+  flex-direction: row;
   width: max-content;
-  min-width: 100%;
-  height: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  touch-action: pan-x;
-  overscroll-behavior-x: contain;
-}
-
-.horizontal-section__track::-webkit-scrollbar {
-  display: none;
-}
-
-.horizontal-section--alt {
-  background: var(--bg);
+  min-height: 0;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
 }
 
 .horizontal-panel {
@@ -295,8 +296,6 @@ a:hover {
   width: 100vw;
   min-height: 100%;
   box-sizing: border-box;
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -337,11 +336,10 @@ a:hover {
 }
 
 .horizontal-section__hint {
-  position: absolute;
-  bottom: var(--space-md);
-  left: 50%;
-  transform: translateX(-50%);
+  flex-shrink: 0;
   margin: 0;
+  padding: 0 var(--space-md) var(--space-md);
+  text-align: center;
   font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.2em;

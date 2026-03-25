@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -110,7 +110,7 @@
               Off the court he has worked in business, written on leadership and
               values, and served in volunteer leadership roles in
               <a
-                href="https://en.wikipedia.org/wiki/The_Church_of_Jesus_Christ_of_Latter-day_Saints"
+                href="https://www.churchofjesuschrist.org/"
                 rel="noopener noreferrer"
                 >The Church of Jesus Christ of Latter-day Saints</a
               >.
@@ -168,7 +168,12 @@
             </li>
             <li>Utah Sports Hall of Fame (2016)</li>
             <li>
-              Author: <cite>Raising an All-American</cite>;
+              Author:
+              <a
+                href="https://www.amazon.com/Raising-All-american-Helping-Child-Athletics/dp/1932898417"
+                rel="noopener noreferrer"
+                ><cite>Raising an All-American</cite></a
+              >;
               <a href="https://thevaluesdelta.com/" rel="noopener noreferrer"
                 ><cite>The Values Delta</cite></a
               >
@@ -179,13 +184,15 @@
 
       <section
         id="hoops-strip"
-        class="horizontal-section"
+        class="horizontal-scroll-scroller horizontal-section"
+        style="--horizontal-panels: 4"
         aria-labelledby="hoops-strip-heading"
       >
-        <h2 id="hoops-strip-heading" class="visually-hidden">
-          Basketball path — scroll horizontally toward college
-        </h2>
-        <div class="horizontal-section__track">
+        <div class="horizontal-scroll-sticky">
+          <h2 id="hoops-strip-heading" class="visually-hidden">
+            Basketball path — scroll vertically to move through panels
+          </h2>
+          <div class="horizontal-section__track" data-horizontal-track>
           <div class="horizontal-panel">
             <div class="horizontal-panel__inner">
               <span class="horizontal-panel__num">I</span>
@@ -228,8 +235,9 @@
           </div>
         </div>
         <p class="horizontal-section__hint">
-          Scroll sideways · wheel maps here
+          Scroll down — panels move horizontally
         </p>
+        </div>
       </section>
 
       <section id="college" class="section" aria-labelledby="college-heading">
@@ -403,13 +411,16 @@
 
       <section
         id="legacy-strip"
-        class="horizontal-section horizontal-section--alt"
+        class="horizontal-scroll-scroller horizontal-section horizontal-section--alt"
+        style="--horizontal-panels: 4"
         aria-labelledby="legacy-strip-heading"
       >
-        <h2 id="legacy-strip-heading" class="visually-hidden">
-          From the league to the next chapters — scroll horizontally
-        </h2>
-        <div class="horizontal-section__track">
+        <div class="horizontal-scroll-sticky">
+          <h2 id="legacy-strip-heading" class="visually-hidden">
+            From the league to the next chapters — scroll vertically to move
+            through panels
+          </h2>
+          <div class="horizontal-section__track" data-horizontal-track>
           <div class="horizontal-panel">
             <div class="horizontal-panel__inner">
               <span class="horizontal-panel__num">I</span>
@@ -453,8 +464,9 @@
           </div>
         </div>
         <p class="horizontal-section__hint">
-          Scroll sideways · wheel maps here
+          Scroll down — panels move horizontally
         </p>
+        </div>
       </section>
 
       <section id="beyond" class="section" aria-labelledby="beyond-heading">
@@ -905,37 +917,62 @@
       })();
 
       (function () {
+        var scrollers = document.querySelectorAll(".horizontal-scroll-scroller");
+        if (!scrollers.length) return;
+
+        function updateScroller(scroller, track) {
+          var vh = window.innerHeight;
+          var scrollY = window.scrollY;
+          var rect = scroller.getBoundingClientRect();
+          var top = rect.top + scrollY;
+          var h = scroller.offsetHeight;
+          var range = Math.max(1, h - vh);
+          var p = (scrollY - top) / range;
+          p = Math.min(1, Math.max(0, p));
+          var maxX = Math.max(0, track.scrollWidth - window.innerWidth);
+          track.style.transform = "translate3d(" + -p * maxX + "px, 0, 0)";
+        }
+
+        var pairs = [];
+        scrollers.forEach(function (scroller) {
+          var track = scroller.querySelector("[data-horizontal-track]");
+          if (track) pairs.push({ scroller: scroller, track: track });
+        });
+
+        var raf = 0;
+        function tick() {
+          raf = 0;
+          pairs.forEach(function (pair) {
+            updateScroller(pair.scroller, pair.track);
+          });
+        }
+
+        function schedule() {
+          if (!raf) raf = requestAnimationFrame(tick);
+        }
+
+        var ro = new ResizeObserver(schedule);
+        pairs.forEach(function (pair) {
+          ro.observe(pair.scroller);
+          ro.observe(pair.track);
+        });
+
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule);
+        schedule();
+      })();
+
+      (function () {
         document
-          .querySelectorAll(".horizontal-section")
-          .forEach(function (section) {
-            var track = section.querySelector(".horizontal-section__track");
-            if (!track) return;
-
-            section.addEventListener(
-              "wheel",
-              function (e) {
-                if (e.ctrlKey || e.metaKey) return;
-                var rect = section.getBoundingClientRect();
-                var inView =
-                  rect.top <= 1 && rect.bottom >= window.innerHeight - 1;
-                if (!inView) return;
-
-                var maxScroll = track.scrollWidth - track.clientWidth;
-                if (maxScroll <= 0) return;
-
-                var canScrollLeft = track.scrollLeft > 2;
-                var canScrollRight = track.scrollLeft < maxScroll - 2;
-
-                if (e.deltaY > 0 && canScrollRight) {
-                  e.preventDefault();
-                  track.scrollLeft += Math.min(e.deltaY, 400);
-                } else if (e.deltaY < 0 && canScrollLeft) {
-                  e.preventDefault();
-                  track.scrollLeft += Math.max(e.deltaY, -400);
-                }
-              },
-              { passive: false },
-            );
+          .querySelectorAll('a[href^="http://"], a[href^="https://"]')
+          .forEach(function (a) {
+            a.target = "_blank";
+            var rel = a.getAttribute("rel") || "";
+            if (!/\bnoopener\b/i.test(rel)) {
+              a.rel = rel
+                ? rel.trim() + " noopener noreferrer"
+                : "noopener noreferrer";
+            }
           });
       })();
     </script>
