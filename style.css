@@ -219,19 +219,12 @@ a:hover {
 
 .hero__grid {
   width: 100%;
-  max-width: 72rem;
+  max-width: var(--max-prose);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  gap: var(--space-lg);
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .hero__grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-  }
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: start;
 }
 
 .hero__title {
@@ -249,7 +242,7 @@ a:hover {
 
 .hero__lede {
   margin: 0;
-  max-width: 28rem;
+  max-width: none;
   font-size: 1.125rem;
   font-weight: 300;
   color: var(--text-muted);
@@ -355,43 +348,6 @@ a:hover {
   }
 }
 
-/* —— Photo placeholders —— */
-.photo-slot {
-  margin: 0;
-  position: relative;
-}
-
-.photo-slot__img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  border-radius: 2px;
-  border: 1px solid var(--line);
-}
-
-.photo-slot--hero .photo-slot__img {
-  width: 100%;
-  max-height: min(85vh, 40rem);
-  height: auto;
-  object-fit: cover;
-  object-position: center top;
-}
-
-.gist-photo {
-  width: 100%;
-  max-height: 22rem;
-  object-fit: cover;
-  object-position: center top;
-}
-
-.beyond-photo {
-  width: 100%;
-  max-height: 18rem;
-  object-fit: cover;
-  object-position: center center;
-}
-
 .pro-video {
   margin: var(--space-lg) 0;
 }
@@ -407,43 +363,6 @@ a:hover {
 .pro-video__caption {
   margin: var(--space-sm) 0 0;
   font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.photo-slot__placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 18rem;
-  aspect-ratio: 3 / 4;
-  background: linear-gradient(145deg, #1a1917 0%, #252320 45%, #1a1917 100%);
-  border: 1px dashed var(--line);
-  border-radius: 2px;
-}
-
-.photo-slot--hero .photo-slot__placeholder {
-  min-height: 22rem;
-}
-
-.photo-slot__placeholder--wide {
-  aspect-ratio: 4 / 3;
-  min-height: 12rem;
-}
-
-.photo-slot__hint {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-
-.photo-slot__caption {
-  margin-top: var(--space-xs);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--text-muted);
 }
 
@@ -500,31 +419,8 @@ a:hover {
   color: var(--text);
 }
 
-.gist-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 14rem) 1fr;
-  gap: var(--space-lg);
-  align-items: start;
+.section--gist .section__body.prose {
   margin-bottom: var(--space-lg);
-}
-
-@media (max-width: 640px) {
-  .gist-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-.beyond-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 16rem) 1fr;
-  gap: var(--space-lg);
-  align-items: start;
-}
-
-@media (max-width: 640px) {
-  .beyond-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .highlights {
@@ -556,66 +452,6 @@ a:hover {
   height: 5px;
   background: var(--accent);
   border-radius: 1px;
-}
-
-/* —— Stats table —— */
-.table-wrap {
-  margin-top: var(--space-lg);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.stats-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9375rem;
-  font-variant-numeric: tabular-nums;
-}
-
-.stats-table caption {
-  text-align: left;
-  font-size: 0.8125rem;
-  color: var(--text-muted);
-  margin-bottom: var(--space-sm);
-}
-
-.stats-table caption a {
-  color: inherit;
-}
-
-.stats-table th,
-.stats-table td {
-  padding: 0.65rem 0.85rem;
-  text-align: left;
-  border-bottom: 1px solid var(--line);
-}
-
-.stats-table thead th {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  border-bottom-color: var(--accent);
-}
-
-.stats-table tbody th {
-  font-weight: 600;
-  color: var(--text);
-}
-
-.stats-table tbody tr:hover td,
-.stats-table tbody tr:hover th[scope="row"] {
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
-}
-
-.stats-table__career {
-  border-top: 1px solid var(--line);
-}
-
-.stats-table__career th,
-.stats-table__career td {
-  padding-top: 0.85rem;
 }
 
 /* —— Podcasts & interviews —— */
@@ -682,6 +518,15 @@ a:hover {
   color: var(--text-muted);
 }
 
+/* —— Short stories (George Durrant) —— */
+.section--honor-george {
+  background: var(--bg);
+}
+
+.honor-george-intro {
+  margin-bottom: var(--space-md);
+}
+
 /* —— Church & General Conference videos —— */
 .section--church {
   background: var(--bg);
@@ -726,6 +571,14 @@ a:hover {
   color: var(--accent);
 }
 
+.talk-card__summary {
+  margin: 0 0 var(--space-md);
+  font-size: 0.98rem;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--text-muted);
+}
+
 .video-embed {
   position: relative;
   width: 100%;
@@ -744,7 +597,7 @@ a:hover {
 }
 
 .talk-card__read {
-  margin: var(--space-sm) 0 0;
+  margin: 0;
   font-size: 0.875rem;
   color: var(--text-muted);
 }
