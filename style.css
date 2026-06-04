@@ -366,6 +366,39 @@ a:hover {
   color: var(--text-muted);
 }
 
+.college-detail {
+  margin-top: var(--space-lg);
+}
+
+.college-detail__heading {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+}
+
+.college-detail .highlights {
+  border-top: none;
+  padding-top: 0;
+}
+
+.church-subheading {
+  margin: var(--space-xl) 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+}
+
+.church-subheading:first-of-type {
+  margin-top: var(--space-lg);
+}
+
+.talk-card .video-embed {
+  margin-bottom: var(--space-md);
+}
+
 /* —— Sections —— */
 .section {
   padding: var(--space-xl) var(--space-md);
